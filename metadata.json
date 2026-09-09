@@ -1,6 +1,6 @@
 {
   "name": "Remix Portal Publikasi Sekolah Versi 1",
-  "description": "Website publikasi dan portal berita sekolah terpadu dengan Login Admin, Universal Media Library (Gambar, Video, Audio, Dokumen, Arsip), dan kustomisasi identitas serta tema sekolah.",
+  "description": "Website resmi publikasi dan warta sekolah SD Negeri 53 Kota Bengkulu dengan Universal Media Library, portal berita, dan pengumuman kelulusan terpadu.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

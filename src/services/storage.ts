@@ -15,35 +15,35 @@ const DB_VERSION = 2;
 
 // Seed initial school identity
 export const DEFAULT_SCHOOL_IDENTITY: SchoolIdentity = {
-  schoolName: 'SMA Negeri 1 Teladan Nusantara',
+  schoolName: 'SD Negeri 53 Kota Bengkulu',
   tagline: 'Membentuk Generasi Berkarakter, Cerdas, Berdaya Saing Global & Berakhlak Mulia',
-  portalTitle: 'Portal Informasi & Warta Resmi SMA Negeri 1 Teladan Nusantara',
+  portalTitle: 'Portal Informasi SD Negeri 53 Kota Bengkulu',
   portalBadge: 'SPMB 2026/2027 Resmi Dibuka • Akreditasi A (Unggul)',
-  npsn: '20104589',
+  npsn: '10702488',
   accreditation: 'A (Unggul) - BAN-S/M',
-  principalName: 'Drs. H. Bambang Suryono, M.Pd.',
-  principalNip: '19680512 199403 1 004',
+  principalName: 'Kepala SD Negeri 53 Kota Bengkulu',
+  principalNip: '19760812 200604 1 008',
   principalPhotoUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%231e3a8a"/><stop offset="100%" stop-color="%230f172a"/></linearGradient><linearGradient id="suitGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="%231e293b"/><stop offset="100%" stop-color="%230f172a"/></linearGradient><linearGradient id="tieGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="%23b91c1c"/><stop offset="100%" stop-color="%23991b1b"/></linearGradient></defs><rect width="400" height="400" fill="url(%23bgGrad)"/><circle cx="200" cy="200" r="180" fill="none" stroke="%233b82f6" stroke-width="2" opacity="0.3"/><circle cx="200" cy="145" r="62" fill="%23f8c291"/><path d="M140 135 C140 85, 260 85, 260 135 C260 100, 240 90, 200 90 C160 90, 140 100, 140 135 Z" fill="%231e293b"/><path d="M165 140 Q200 135 235 140" stroke="%23334155" stroke-width="3" fill="none"/><rect x="155" y="132" width="34" height="18" rx="4" fill="none" stroke="%23334155" stroke-width="3"/><rect x="211" y="132" width="34" height="18" rx="4" fill="none" stroke="%23334155" stroke-width="3"/><line x1="189" y1="140" x2="211" y2="140" stroke="%23334155" stroke-width="3"/><circle cx="172" cy="141" r="3.5" fill="%231e293b"/><circle cx="228" cy="141" r="3.5" fill="%231e293b"/><path d="M196 142 L194 158 L206 158" stroke="%23d35400" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M185 167 C192 165, 208 165, 215 167" stroke="%23334155" stroke-width="4" stroke-linecap="round"/><path d="M188 178 Q200 188 212 178" stroke="%23c0392b" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M175 205 L175 240 L225 240 L225 205 Z" fill="%23f8c291"/><path d="M100 370 C100 270, 140 230, 175 230 L225 230 C260 230, 300 270, 300 370 Z" fill="url(%23suitGrad)"/><polygon points="175,230 200,290 225,230" fill="%23ffffff"/><polygon points="194,235 206,235 210,315 200,335 190,315" fill="url(%23tieGrad)"/><path d="M140 250 L185 295 L175 230 Z" fill="%23334155"/><path d="M260 250 L215 295 L225 230 Z" fill="%23334155"/><rect x="130" y="270" width="30" height="8" rx="2" fill="%23f59e0b" opacity="0.9"/><circle cx="138" cy="274" r="2" fill="%23ffffff"/><circle cx="146" cy="274" r="2" fill="%23ffffff"/><circle cx="154" cy="274" r="2" fill="%23ffffff"/></svg>',
-  principalGreeting: 'Pendidikan bukan sekadar proses transfer ilmu pengetahuan, melainkan ruang pembentukan karakter luhur, daya nalar kritis, dan kepedulian sosial. Melalui portal publikasi digital ini, kami membuka pintu kolaborasi yang seluas-luasnya bagi seluruh orang tua, peserta didik, dan masyarakat untuk bersama-sama melahirkan generasi masa depan yang berdaya saing global.',
-  address: 'Jl. Pemuda Pendidikan No. 45, Menteng, Jakarta Pusat 10310',
-  phone: '(021) 3928174 / 0812-9876-5432',
-  email: 'info@sman1teladannusantara.sch.id',
-  website: 'https://sman1teladannusantara.sch.id',
+  principalGreeting: 'Pendidikan dasar adalah fondasi utama dalam pembentukan karakter luhur, budi pekerti, kecerdasan nalar, dan kreativitas anak. Melalui portal publikasi digital SD Negeri 53 Kota Bengkulu, kami berkomitmen memberikan transparansi informasi, layanan pendidikan terbaik, serta wadah kolaborasi aktif antara sekolah, orang tua, dan masyarakat luas.',
+  address: 'Jl. Danau, Panorama, Kec. Singaran Pati, Kota Bengkulu, Bengkulu 38226',
+  phone: '(0736) 21543 / 0821-7890-5353',
+  email: 'sdnegeri53kotabengkulu@gmail.com',
+  website: 'https://sdn53-kota-bengkulu-v1.vercel.app',
   socialMedia: {
-    instagram: '@sman1teladan_official',
-    youtube: 'SMA Negeri 1 Teladan TV',
-    facebook: 'SMAN 1 Teladan Nusantara',
-    tiktok: '@teladan.creative'
+    instagram: '@sdn53kotabengkulu',
+    youtube: 'SD Negeri 53 Kota Bengkulu TV',
+    facebook: 'SDN 53 Kota Bengkulu Official',
+    tiktok: '@sdn53bengkulu'
   },
-  vision: 'Terwujudnya lulusan yang beriman, berilmu, berwawasan global, unggul dalam teknologi dan peduli lingkungan.',
+  vision: 'Terwujudnya peserta didik yang berkarakter Profil Pelajar Pancasila, cerdas, berdaya saing global, berakhlak mulia, dan peduli lingkungan.',
   missions: [
-    'Menyelenggarakan proses pembelajaran berkualitas berpusat pada murid dengan Kurikulum Merdeka.',
-    'Menumbuhkembangkan karakter profil pelajar Pancasila dan budaya literasi digital.',
-    'Meningkatkan prestasi akademik dan non-akademik di tingkat nasional hingga internasional.',
-    'Mewujudkan tata kelola sekolah yang transparan, modern, dan ramah anak.'
+    'Menyelenggarakan pembelajaran berkualitas dan bermakna berpusat pada murid melalui Kurikulum Merdeka.',
+    'Menumbuhkembangkan budi pekerti luhur, nilai religius, dan budaya disiplin positif sekolah.',
+    'Meningkatkan literasi membaca, numerasi dasar, dan prestasi akademik serta non-akademik.',
+    'Mewujudkan tata kelola satuan pendidikan yang ramah anak, bersih, sehat (UKS), dan berbasis teknologi informasi.'
   ],
   logo: {
-    url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="46" fill="%231e3a8a" stroke="%23f59e0b" stroke-width="4"/><path d="M50 18 L76 34 L76 66 L50 82 L24 66 L24 34 Z" fill="%231e40af" stroke="%23ffffff" stroke-width="2"/><circle cx="50" cy="50" r="14" fill="%23f59e0b"/><path d="M50 32 L54 44 L66 44 L56 52 L60 64 L50 56 L40 64 L44 52 L34 44 L46 44 Z" fill="%23ffffff"/><path d="M30 76 Q50 70 70 76" stroke="%23ffffff" stroke-width="3" fill="none"/></svg>',
+    url: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><defs><linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="%231e40af"/><stop offset="100%" stop-color="%230f172a"/></linearGradient></defs><circle cx="50" cy="50" r="47" fill="%231e3a8a" stroke="%23f59e0b" stroke-width="3.5"/><circle cx="50" cy="50" r="39" fill="%23ffffff"/><path d="M50 20 L72 32 L72 60 L50 78 L28 60 L28 32 Z" fill="url(%23shieldGrad)" stroke="%23f59e0b" stroke-width="1.8"/><circle cx="50" cy="46" r="10" fill="%23ef4444"/><polygon points="50,38 52.5,43.5 58.5,43.5 53.8,47 55.5,52.5 50,49 44.5,52.5 46.2,47 41.5,43.5 47.5,43.5" fill="%23f59e0b"/><path d="M35 62 Q50 56 65 62" stroke="%23ffffff" stroke-width="2" fill="none"/><text x="50" y="72" font-size="5" font-weight="900" text-anchor="middle" fill="%23f59e0b" font-family="sans-serif">SDN 53</text><text x="50" y="14" font-size="4.2" font-weight="bold" text-anchor="middle" fill="%23f59e0b" font-family="sans-serif">KOTA BENGKULU</text></svg>',
     shape: 'circle',
     height: 52
   },
@@ -308,29 +308,55 @@ export const SEED_MEDIA_ITEMS: MediaItem[] = [
 // Initial seed articles
 export const SEED_ARTICLES: NewsArticle[] = [
   {
+    id: 'art-rapat-perencanaan-2026',
+    title: 'Rapat Penyusunan Perencanaan Program Satuan Pendidikan',
+    slug: 'rapat-penyusunan-perencanaan-program-satuan-pendidikan',
+    status: 'published',
+    category: 'Kegiatan',
+    excerpt: 'SD Negeri 53 Kota Bengkulu menyelenggarakan rapat penyusunan perencanaan program satuan pendidikan guna menyelaraskan kurikulum, peningkatan mutu pembelajaran, dan evaluasi capaian tahun ajaran.',
+    content: `Dalam rangka meningkatkan mutu layanan pendidikan serta mewujudkan tata kelola sekolah yang akuntabel, adaptif, dan transparan, SD Negeri 53 Kota Bengkulu menyelenggarakan **Rapat Penyusunan Perencanaan Program Satuan Pendidikan**.
+
+Rapat dihadiri oleh Kepala Sekolah, seluruh dewan guru kelas dan guru mata pelajaran, staf tenaga kependidikan, serta perwakilan pengurus Komite Sekolah. Agenda strategis ini difokuskan pada evaluasi program kerja tahun sebelumnya, penyusunan Rencana Kerja Tahunan (RKT), pemetaan kebutuhan sarana belajar murid, serta penguatan implementasi Kurikulum Merdeka.
+
+### 4 Pilar Utama Pembahasan:
+1. **Peningkatan Kualitas Pembelajaran**: Penguatan modul ajar interaktif, literasi membaca terpadu, dan numerasi dasar bagi seluruh rombongan belajar murid.
+2. **Pengembangan Karakter Profil Pelajar Pancasila**: Program pembiasaan positif di pagi hari, kedisiplinan, serta kegiatan ekstrakurikuler kepramukaan, kesenian daerah, dan olahraga prestasi.
+3. **Penguatan Sarana dan Prasarana**: Pemeliharaan lingkungan sekolah yang ramah anak, bersih, sehat (UKS), serta pemanfaatan sarana multimedia penunjang pembelajaran digital.
+4. **Kolaborasi Bersama Orang Tua**: Membangun sinergi aktif antara pihak sekolah dan wali murid guna mendukung keberhasilan belajar anak di rumah dan di sekolah.
+
+Kepala Sekolah menyampaikan rasa terima kasih dan apresiasi setinggi-tingginya kepada seluruh dewan guru dan komite atas kerja keras serta dedikasi bersama demi kemajuan putra-putri generasi penerus bangsa di SD Negeri 53 Kota Bengkulu.`,
+    featuredImageUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=80',
+    featuredMediaId: 'media-ppdb-banner',
+    author: 'Admin Sekolah',
+    createdAt: '2026-09-09 06:48',
+    updatedAt: '2026-09-09 06:48',
+    publishedAt: '2026-09-09 06:48',
+    views: 1250,
+    attachedMediaIds: ['media-doc-ppdb', 'media-doc-silabus']
+  },
+  {
     id: 'art-ppdb-2026',
     title: 'Seleksi Penerimaan Murid Baru (SPMB) Tahun Ajaran 2026/2027 Resmi Dibuka',
     slug: 'seleksi-penerimaan-murid-baru-spmb-2026-2027-resmi-dibuka',
     status: 'published',
     category: 'Pengumuman',
-    excerpt: 'SMA Negeri 1 Teladan Nusantara membuka pendaftaran calon murid baru (SPMB) melalui jalur afirmasi, prestasi akademik/non-akademik, zonasi domisili, dan perpindahan tugas orang tua.',
-    content: `SMA Negeri 1 Teladan Nusantara dengan bangga mengumumkan pembukaan proses Seleksi Penerimaan Murid Baru (SPMB) Tahun Ajaran 2026/2027. Sebagai salah satu sekolah rujukan berakreditasi A (Unggul), kami berkomitmen memberikan akses pendidikan bermutu tinggi yang berkeadilan bagi seluruh putra-putri bangsa.
+    excerpt: 'SD Negeri 53 Kota Bengkulu membuka pendaftaran calon murid baru (SPMB) melalui jalur afirmasi, zonasi domisili, dan perpindahan tugas orang tua.',
+    content: `SD Negeri 53 Kota Bengkulu dengan bangga mengumumkan pembukaan proses Seleksi Penerimaan Murid Baru (SPMB) Tahun Ajaran 2026/2027. Sebagai salah satu sekolah dasar berakreditasi A (Unggul), kami berkomitmen memberikan akses pendidikan bermutu tinggi yang ramah anak bagi seluruh putra-putri bangsa.
 
 ### Jalur Pendaftaran yang Tersedia:
-1. **Jalur Zonasi Terpadu (50%)**: Diperuntukkan bagi calon peserta didik yang berdomisili dalam radius wilayah zonasi sekolah.
-2. **Jalur Prestasi Akademik & Kejuaraan (30%)**: Berdasarkan nilai rapor, piagam OSN, O2SN, FLS2N, atau kejuaraan olahraga/seni resmi.
-3. **Jalur Afirmasi & KIP (15%)**: Bagi calon siswa dari keluarga prasejahtera dan penyandang disabilitas.
-4. **Jalur Perpindahan Tugas Orang Tua (5%)**: Bagi calon peserta didik yang orang tuanya pindah tugas dinas ke wilayah sekitar sekolah.
+1. **Jalur Zonasi Domisili (70%)**: Diperuntukkan bagi calon peserta didik yang berdomisili dalam radius wilayah zonasi sekitar sekolah.
+2. **Jalur Afirmasi & KIP (25%)**: Bagi calon peserta didik dari keluarga prasejahtera dan penyandang disabilitas.
+3. **Jalur Perpindahan Tugas Orang Tua (5%)**: Bagi calon peserta didik yang orang tuanya pindah tugas dinas ke wilayah Kota Bengkulu.
 
 ### Persyaratan Berkas Administrasi:
-- Surat Keterangan Lulus (SKL) / Ijazah SMP/MTs sederajat.
-- Fotokopi Kartu Keluarga (KK) dan Akta Kelahiran.
-- Pas foto terbaru ukuran 3x4 (latar belakang merah).
+- Usia 7 tahun atau paling rendah 6 tahun pada tanggal 1 Juli tahun berjalan.
+- Akta Kelahiran asli dan fotokopi.
+- Kartu Keluarga (KK) asli dan fotokopi.
 - Mengisi formulir pendaftaran resmi yang dapat diunduh di bagian bawah artikel ini.
 
-Untuk informasi teknis dan verifikasi berkas, panitia SPMB membuka posko layanan di Ruang Multimedia Sekolah setiap hari kerja pukul 08.00 - 15.00 WIB. Silakan unduh formulir pendaftaran dan panduan lengkap melalui lampiran berkas di bawah.`,
-    featuredImageUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=80',
-    featuredMediaId: 'media-ppdb-banner',
+Untuk informasi teknis dan verifikasi berkas fisik, panitia SPMB membuka posko pelayanan di Ruang Pelayanan Terpadu Sekolah setiap hari kerja pukul 08.00 - 14.00 WIB. Silakan unduh formulir pendaftaran dan panduan lengkap melalui lampiran berkas di bawah.`,
+    featuredImageUrl: 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1400&q=80',
+    featuredMediaId: 'media-bg-campus',
     author: 'Panitia SPMB 2026',
     createdAt: '2026-09-02 08:30',
     updatedAt: '2026-09-02 08:30',
@@ -519,7 +545,11 @@ export async function initializeDatabase(): Promise<void> {
     const existingSettingsReq = settingsStore.get('school-identity');
 
     existingSettingsReq.onsuccess = () => {
-      if (!existingSettingsReq.result) {
+      if (
+        !existingSettingsReq.result ||
+        !existingSettingsReq.result.data ||
+        existingSettingsReq.result.data.schoolName === 'SMA Negeri 1 Teladan Nusantara'
+      ) {
         settingsStore.put({ id: 'school-identity', data: DEFAULT_SCHOOL_IDENTITY });
       }
     };
@@ -562,6 +592,14 @@ export async function initializeDatabase(): Promise<void> {
         SEED_ARTICLES.forEach((art) => {
           articleStore.put(art);
         });
+      } else {
+        // Ensure new SD Negeri 53 Kota Bengkulu featured article is present
+        const checkReq = articleStore.get('art-rapat-perencanaan-2026');
+        checkReq.onsuccess = () => {
+          if (!checkReq.result) {
+            articleStore.put(SEED_ARTICLES[0]);
+          }
+        };
       }
     };
 
@@ -977,6 +1015,12 @@ export async function getSchoolIdentity(): Promise<SchoolIdentity> {
       const req = store.get('school-identity');
       req.onsuccess = () => {
         if (req.result && req.result.data) {
+          // If stored data has old SMA demo name, automatically migrate to default SD Negeri 53 Kota Bengkulu
+          if (req.result.data.schoolName === 'SMA Negeri 1 Teladan Nusantara') {
+            saveSchoolIdentity(DEFAULT_SCHOOL_IDENTITY).catch(() => {});
+            resolve(DEFAULT_SCHOOL_IDENTITY);
+            return;
+          }
           resolve({
             ...DEFAULT_SCHOOL_IDENTITY,
             ...req.result.data,
@@ -1796,4 +1840,131 @@ export function downloadStudentSkl(
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+// ----------------- BACKUP & RESTORE OPERATIONS -----------------
+
+export interface WebsiteBackupPayload {
+  version: number;
+  exportDate: string;
+  source: string;
+  schoolIdentity: SchoolIdentity;
+  articles: NewsArticle[];
+  media: MediaItem[];
+  graduationConfig?: GraduationConfig;
+  graduationStudents?: GraduationStudent[];
+  comments?: ArticleComment[];
+}
+
+export async function exportFullDatabaseBackup(): Promise<WebsiteBackupPayload> {
+  const [identity, arts, meds, comments, gradConfig, gradStudents] = await Promise.all([
+    getSchoolIdentity(),
+    getAllArticles(),
+    getAllMedia(),
+    getAllComments().catch(() => []),
+    getGraduationConfig().catch(() => DEFAULT_GRADUATION_CONFIG),
+    getGraduationStudents().catch(() => [])
+  ]);
+
+  return {
+    version: 2,
+    exportDate: new Date().toISOString(),
+    source: 'SD Negeri 53 Kota Bengkulu Portal',
+    schoolIdentity: identity,
+    articles: arts,
+    media: meds,
+    graduationConfig: gradConfig,
+    graduationStudents: gradStudents,
+    comments: comments
+  };
+}
+
+export async function downloadBackupFile(): Promise<void> {
+  const data = await exportFullDatabaseBackup();
+  const jsonString = JSON.stringify(data, null, 2);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dateStr = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `backup_portal_sdn53_bengkulu_${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+export async function importFullDatabaseBackup(backupJson: string): Promise<{ success: boolean; message: string }> {
+  try {
+    const payload = JSON.parse(backupJson) as Partial<WebsiteBackupPayload>;
+    if (!payload.schoolIdentity && !payload.articles) {
+      return {
+        success: false,
+        message: 'Format file cadangan tidak valid (data identitas atau artikel tidak ditemukan).'
+      };
+    }
+
+    const db = await openDB();
+
+    // 1. Save school identity
+    if (payload.schoolIdentity) {
+      await saveSchoolIdentity(payload.schoolIdentity);
+    }
+
+    // 2. Save articles
+    if (Array.isArray(payload.articles)) {
+      const artTx = db.transaction('articles', 'readwrite');
+      const artStore = artTx.objectStore('articles');
+      payload.articles.forEach((art) => {
+        artStore.put(art);
+      });
+      await new Promise<void>((resolve, reject) => {
+        artTx.oncomplete = () => resolve();
+        artTx.onerror = () => reject(artTx.error);
+      });
+    }
+
+    // 3. Save media
+    if (Array.isArray(payload.media)) {
+      const medTx = db.transaction('media', 'readwrite');
+      const medStore = medTx.objectStore('media');
+      payload.media.forEach((item) => {
+        medStore.put(item);
+      });
+      await new Promise<void>((resolve, reject) => {
+        medTx.oncomplete = () => resolve();
+        medTx.onerror = () => reject(medTx.error);
+      });
+    }
+
+    // 4. Save graduation config & students
+    if (payload.graduationConfig) {
+      await saveGraduationConfig(payload.graduationConfig);
+    }
+    if (Array.isArray(payload.graduationStudents)) {
+      await saveGraduationStudents(payload.graduationStudents);
+    }
+
+    // 5. Save comments if any
+    if (Array.isArray(payload.comments) && db.objectStoreNames.contains('comments')) {
+      const commTx = db.transaction('comments', 'readwrite');
+      const commStore = commTx.objectStore('comments');
+      payload.comments.forEach((c) => commStore.put(c));
+      await new Promise<void>((resolve, reject) => {
+        commTx.oncomplete = () => resolve();
+        commTx.onerror = () => reject(commTx.error);
+      });
+    }
+
+    return {
+      success: true,
+      message: 'Seluruh data website berhasil dipulihkan!'
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: `Gagal memproses file cadangan: ${err?.message || 'Error tidak diketahui'}`
+    };
+  }
+}
+
 
