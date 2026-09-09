@@ -11,9 +11,12 @@ import {
   Laptop,
   ArrowRight,
   ShieldCheck,
-  Info
+  Info,
+  Cloud,
+  CloudCheck
 } from 'lucide-react';
-import { downloadBackupFile, importFullDatabaseBackup } from '../services/storage';
+import { downloadBackupFile, importFullDatabaseBackup, getSchoolIdentity, getAllArticles } from '../services/storage';
+import { syncRemoteSchoolIdentity, syncRemoteArticle } from '../services/firebaseSync';
 
 interface BackupRestoreModalProps {
   isOpen: boolean;
@@ -28,10 +31,35 @@ export default function BackupRestoreModal({
 }: BackupRestoreModalProps) {
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
+  const [isCloudSyncing, setIsCloudSyncing] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
+
+  const handleCloudSync = async () => {
+    try {
+      setIsCloudSyncing(true);
+      setStatusMessage(null);
+      const identity = await getSchoolIdentity();
+      await syncRemoteSchoolIdentity(identity);
+      const articles = await getAllArticles();
+      for (const art of articles) {
+        await syncRemoteArticle(art);
+      }
+      setStatusMessage({
+        type: 'success',
+        text: 'Data berhasil disinkronkan ke Firebase Cloud! Saat HP atau perangkat lain membuka link website, data terbaru akan otomatis termuat.'
+      });
+    } catch (err: any) {
+      setStatusMessage({
+        type: 'error',
+        text: `Gagal sinkron ke Cloud: ${err?.message || 'Pastikan koneksi internet aktif'}`
+      });
+    } finally {
+      setIsCloudSyncing(false);
+    }
+  };
 
   const handleExport = async () => {
     try {
@@ -164,6 +192,34 @@ export default function BackupRestoreModal({
               <div className="flex-1 leading-relaxed">{statusMessage.text}</div>
             </div>
           )}
+
+          {/* Action: Cloud Sync with Firebase */}
+          <div className="bg-blue-50/70 border border-blue-200 rounded-2xl p-5 space-y-3">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-sm font-black text-blue-950 flex items-center gap-2">
+                  <Cloud className="w-4 h-4 text-blue-600" />
+                  <span>Sinkronisasi Otomatis Cloud (Firebase)</span>
+                </h3>
+                <p className="text-xs text-blue-900/80 mt-1 leading-relaxed">
+                  Kirim perubahan terkini langsung ke Firebase Firestore Cloud. Perangkat lain (termasuk HP yang membuka via Vercel) akan otomatis menerima perubahan tanpa perlu kirim file manual.
+                </p>
+              </div>
+
+              <button
+                onClick={handleCloudSync}
+                disabled={isCloudSyncing}
+                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold text-xs rounded-xl shadow-xs transition-colors shrink-0 inline-flex items-center gap-2"
+              >
+                {isCloudSyncing ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Cloud className="w-4 h-4" />
+                )}
+                <span>{isCloudSyncing ? 'Menyinkronkan...' : 'Sinkron ke Cloud'}</span>
+              </button>
+            </div>
+          </div>
 
           {/* Action 1: Export Backup */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-3">

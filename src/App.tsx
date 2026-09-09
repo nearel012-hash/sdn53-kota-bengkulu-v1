@@ -10,6 +10,7 @@ import {
   getAdminSession,
   DEFAULT_SCHOOL_IDENTITY
 } from './services/storage';
+import { subscribeToRemoteSchoolIdentity } from './services/firebaseSync';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PublicHome from './components/PublicHome';
@@ -52,6 +53,24 @@ export default function App() {
       }
     };
     init();
+
+    // Listen to real-time changes from other devices via Firebase
+    const unsub = subscribeToRemoteSchoolIdentity((cloudIdentity) => {
+      if (cloudIdentity && cloudIdentity.schoolName) {
+        setSchoolIdentity((prev) => ({
+          ...prev,
+          ...cloudIdentity,
+          theme: {
+            ...prev.theme,
+            ...(cloudIdentity.theme || {})
+          }
+        }));
+      }
+    });
+
+    return () => {
+      unsub();
+    };
   }, []);
 
   const handleUpdateIdentity = (updated: SchoolIdentity) => {

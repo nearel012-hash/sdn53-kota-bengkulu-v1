@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { NewsArticle, NewsCategory, SchoolIdentity, MediaItem } from '../types';
 import { getAllArticles, getAllMedia, getCommentsCountMap } from '../services/storage';
+import { subscribeToRemoteArticles } from '../services/firebaseSync';
 
 interface PublicHomeProps {
   schoolIdentity: SchoolIdentity;
@@ -41,6 +42,8 @@ export default function PublicHome({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -49,18 +52,34 @@ export default function PublicHome({
           getAllMedia(),
           getCommentsCountMap()
         ]);
-        // Only show published articles to public
-        const published = arts.filter((a) => a.status === 'published');
-        setArticles(published);
-        setMediaList(media);
-        setCommentsMap(comms);
+        if (isMounted) {
+          // Only show published articles to public
+          const published = arts.filter((a) => a.status === 'published');
+          setArticles(published);
+          setMediaList(media);
+          setCommentsMap(comms);
+        }
       } catch (err) {
         console.error('Failed to load public data', err);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
     fetchData();
+
+    // Real-time listener: when Device A publishes an article, Device B updates immediately
+    const unsub = subscribeToRemoteArticles((updatedArticles) => {
+      if (isMounted) {
+        const published = updatedArticles.filter((a) => a.status === 'published');
+        setArticles(published);
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      unsub();
+    };
   }, []);
 
   const featuredArticle = articles.length > 0 ? articles[0] : null;
