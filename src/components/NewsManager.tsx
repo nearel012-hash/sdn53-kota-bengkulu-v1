@@ -23,7 +23,6 @@ import {
 } from 'lucide-react';
 import { NewsArticle, NewsCategory, ArticleStatus, MediaItem } from '../types';
 import { getAllArticles, saveArticle, deleteArticle, getAllMedia, getCommentsCountMap } from '../services/storage';
-import { subscribeToRemoteArticles } from '../services/firebaseSync';
 import MediaLibraryModal from './MediaLibraryModal';
 import ConfirmModal from './ConfirmModal';
 
@@ -82,16 +81,6 @@ export default function NewsManager({ onViewPublicArticle }: NewsManagerProps) {
 
   useEffect(() => {
     fetchArticles();
-
-    // Listen for real-time article changes from other devices
-    const unsub = subscribeToRemoteArticles((updatedList) => {
-      setArticles(updatedList);
-      setIsLoading(false);
-    });
-
-    return () => {
-      unsub();
-    };
   }, []);
 
   const handleCreateNew = () => {

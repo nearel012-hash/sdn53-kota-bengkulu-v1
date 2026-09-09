@@ -120,13 +120,12 @@ export default function AdminDashboard({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Status Indikator Real-Time Cloud (Otomatis tanpa tombol manual) */}
             <div
               className="px-2.5 py-1.5 bg-emerald-500/10 text-emerald-300 text-xs font-medium rounded-lg border border-emerald-500/20 inline-flex items-center gap-1.5 select-none"
-              title="Semua perubahan otomatis tersimpan & tersinkron ke semua perangkat secara langsung"
+              title="Sistem penyimpanan database aktif"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="hidden md:inline">Cloud Real-Time Aktif</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span className="hidden md:inline">Sistem Aktif</span>
             </div>
             <button
               onClick={onGoToPublic}
