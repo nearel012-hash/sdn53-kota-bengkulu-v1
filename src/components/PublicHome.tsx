@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { NewsArticle, NewsCategory, SchoolIdentity, MediaItem } from '../types';
 import { getAllArticles, getAllMedia, getCommentsCountMap } from '../services/storage';
+import { subscribeToRemoteArticles } from '../services/firebaseSync';
 
 interface PublicHomeProps {
   schoolIdentity: SchoolIdentity;
@@ -66,8 +67,18 @@ export default function PublicHome({
     };
     fetchData();
 
+    // Real-time listener: when Laptop A publishes an article, Laptop B & phone update immediately
+    const unsub = subscribeToRemoteArticles((updatedArticles) => {
+      if (isMounted) {
+        const published = updatedArticles.filter((a) => a.status === 'published');
+        setArticles(published);
+        setIsLoading(false);
+      }
+    });
+
     return () => {
       isMounted = false;
+      unsub();
     };
   }, []);
 

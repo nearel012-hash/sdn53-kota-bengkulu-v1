@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "NewsArticle": {
+      "title": "NewsArticle",
+      "description": "School news and announcements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title"]
+    },
+    "SchoolIdentity": {
+      "title": "SchoolIdentity",
+      "description": "School identity and profile data",
+      "type": "object",
+      "properties": {
+        "schoolName": { "type": "string" },
+        "motto": { "type": "string" }
+      },
+      "required": ["schoolName"]
+    }
+  },
+  "firestore": {
+    "/articles/{articleId}": {
+      "schema": "NewsArticle",
+      "description": "Articles published on school website"
+    },
+    "/settings/{settingId}": {
+      "schema": "SchoolIdentity",
+      "description": "School configuration and identity"
+    },
+    "/media/{mediaId}": {
+      "schema": "MediaItem",
+      "description": "Media library items"
+    },
+    "/graduation/{docId}": {
+      "schema": "GraduationConfig",
+      "description": "Graduation configuration and student list"
+    }
+  }
+}

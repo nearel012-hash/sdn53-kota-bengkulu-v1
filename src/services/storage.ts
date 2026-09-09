@@ -9,6 +9,18 @@ import {
   SklTemplateConfig,
   ArticleComment
 } from '../types';
+import {
+  fetchRemoteSchoolIdentity,
+  syncRemoteSchoolIdentity,
+  fetchRemoteArticles,
+  syncRemoteArticle,
+  deleteRemoteArticle,
+  fetchRemoteMedia,
+  syncRemoteMediaItem,
+  deleteRemoteMediaItem,
+  fetchRemoteGraduation,
+  syncRemoteGraduation
+} from './firebaseSync';
 
 const DB_NAME = 'SchoolPublishDB';
 const DB_VERSION = 2;
@@ -616,9 +628,91 @@ export async function initializeDatabase(): Promise<void> {
         }
       };
     }
-
+    
+    // Direct cloud synchronization from Firebase
+    try {
+      await Promise.race([
+        syncAllFromCloud(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Cloud sync timeout')), 3500))
+      ]);
+    } catch (syncErr) {
+      console.warn('Initial cloud sync bypassed (working with cached/local data):', syncErr);
+    }
   } catch (err) {
     console.error('Failed to initialize IndexedDB:', err);
+  }
+}
+
+/**
+ * Synchronizes all content from Firebase Firestore down to the local browser database.
+ * This guarantees that when Laptop B or any phone opens the website, it pulls whatever was saved.
+ */
+export async function syncAllFromCloud(): Promise<void> {
+  try {
+    const db = await openDB();
+
+    // 1. Sync articles (two-way merge)
+    const remoteArticles = await fetchRemoteArticles();
+    const localArticles: NewsArticle[] = await new Promise((resolve) => {
+      const tx = db.transaction('articles', 'readonly');
+      const store = tx.objectStore('articles');
+      const req = store.getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => resolve([]);
+    });
+
+    if (remoteArticles) {
+      const remoteMap = new Map(remoteArticles.map((a) => [a.id, a]));
+      
+      // Push any local article to Cloud if not present in Cloud yet (e.g. newly posted on Laptop A)
+      for (const localArt of localArticles) {
+        if (!remoteMap.has(localArt.id)) {
+          console.log('[Sync] Uploading local article to Cloud:', localArt.title);
+          await syncRemoteArticle(localArt).catch(() => {});
+        }
+      }
+
+      // Save remote articles to local IndexedDB
+      if (remoteArticles.length > 0) {
+        const aTx = db.transaction('articles', 'readwrite');
+        const aStore = aTx.objectStore('articles');
+        remoteArticles.forEach((art) => aStore.put(art));
+        console.log(`[Sync] Synced ${remoteArticles.length} articles with Cloud Firestore`);
+      } else if (localArticles.length > 0) {
+        for (const art of localArticles) {
+          await syncRemoteArticle(art).catch(() => {});
+        }
+      }
+    }
+
+    // 2. Sync school identity
+    const remoteIdentity = await fetchRemoteSchoolIdentity();
+    if (remoteIdentity && remoteIdentity.schoolName) {
+      const curTx = db.transaction('settings', 'readwrite');
+      curTx.objectStore('settings').put({ id: 'school-identity', data: remoteIdentity });
+      console.log('[Sync] Loaded school identity from Cloud Firestore');
+    } else {
+      // Push local identity to Cloud
+      const localIdReq: any = await new Promise((resolve) => {
+        const tx = db.transaction('settings', 'readonly');
+        const store = tx.objectStore('settings');
+        const req = store.get('school-identity');
+        req.onsuccess = () => resolve(req.result?.data || null);
+        req.onerror = () => resolve(null);
+      });
+      await syncRemoteSchoolIdentity(localIdReq || DEFAULT_SCHOOL_IDENTITY).catch(() => {});
+    }
+
+    // 3. Sync graduation config & students
+    const remoteGrad = await fetchRemoteGraduation();
+    if (remoteGrad?.config) {
+      localStorage.setItem(GRAD_CONFIG_KEY, JSON.stringify(remoteGrad.config));
+    }
+    if (remoteGrad?.students && remoteGrad.students.length > 0) {
+      localStorage.setItem(GRAD_STUDENTS_KEY, JSON.stringify(remoteGrad.students));
+    }
+  } catch (cloudErr) {
+    console.warn('Cloud sync error:', cloudErr);
   }
 }
 
@@ -626,6 +720,22 @@ export async function initializeDatabase(): Promise<void> {
 // ----------------- MEDIA CRUD OPERATIONS -----------------
 
 export async function getAllMedia(): Promise<MediaItem[]> {
+  // 1. Try to fetch from Firebase Cloud first so Device B immediately sees Device A's media
+  try {
+    const remoteMedia = await fetchRemoteMedia();
+    if (remoteMedia && remoteMedia.length > 0) {
+      openDB().then((db) => {
+        const tx = db.transaction('media', 'readwrite');
+        const store = tx.objectStore('media');
+        remoteMedia.forEach((m) => store.put(m));
+      }).catch(() => {});
+      return remoteMedia;
+    }
+  } catch (err) {
+    console.warn('Firebase media fetch notice:', err);
+  }
+
+  // 2. Fallback to local IndexedDB
   try {
     const db = await openDB();
     return new Promise((resolve, reject) => {
@@ -666,6 +776,12 @@ export async function saveMediaItem(item: MediaItem, fileBlob?: Blob): Promise<v
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
+  // Cloud sync to Firebase
+  try {
+    await syncRemoteMediaItem(item);
+  } catch (cloudErr) {
+    console.warn('Firebase media sync notice:', cloudErr);
+  }
 }
 
 export async function deleteMediaItem(id: string): Promise<void> {
@@ -678,6 +794,12 @@ export async function deleteMediaItem(id: string): Promise<void> {
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
+  // Cloud sync to Firebase
+  try {
+    await deleteRemoteMediaItem(id);
+  } catch (cloudErr) {
+    console.warn('Firebase media delete notice:', cloudErr);
+  }
 }
 
 export async function updateMediaItemVisibility(id: string, isPublic: boolean): Promise<void> {
@@ -727,6 +849,26 @@ export async function getMediaObjectUrl(item: MediaItem): Promise<string> {
 // ----------------- ARTICLES CRUD OPERATIONS -----------------
 
 export async function getAllArticles(): Promise<NewsArticle[]> {
+  // 1. Try to fetch from Firebase Cloud first so Device B immediately sees Device A's changes
+  try {
+    const remoteArticles = await fetchRemoteArticles();
+    if (remoteArticles && remoteArticles.length > 0) {
+      remoteArticles.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      
+      // Update local cache asynchronously
+      openDB().then((db) => {
+        const tx = db.transaction('articles', 'readwrite');
+        const store = tx.objectStore('articles');
+        remoteArticles.forEach((art) => store.put(art));
+      }).catch(() => {});
+
+      return remoteArticles;
+    }
+  } catch (cloudErr) {
+    console.warn('Firebase articles fetch notice:', cloudErr);
+  }
+
+  // 2. Fallback to local IndexedDB
   try {
     const db = await openDB();
     return new Promise((resolve, reject) => {
@@ -754,6 +896,13 @@ export async function saveArticle(article: NewsArticle): Promise<void> {
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
+
+  // Cloud sync to Firebase
+  try {
+    await syncRemoteArticle(article);
+  } catch (cloudErr) {
+    console.warn('Firebase article sync notice:', cloudErr);
+  }
 }
 
 export async function deleteArticle(id: string): Promise<void> {
@@ -765,6 +914,13 @@ export async function deleteArticle(id: string): Promise<void> {
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
+
+  // Cloud sync to Firebase
+  try {
+    await deleteRemoteArticle(id);
+  } catch (cloudErr) {
+    console.warn('Firebase article delete notice:', cloudErr);
+  }
 }
 
 export async function incrementArticleViews(id: string): Promise<void> {
@@ -1009,6 +1165,32 @@ export async function getCommentsCountMap(): Promise<Record<string, number>> {
 // ----------------- SETTINGS & IDENTITY OPERATIONS -----------------
 
 export async function getSchoolIdentity(): Promise<SchoolIdentity> {
+  // 1. Try to fetch from Firebase Cloud first so Device B immediately sees Device A's changes
+  try {
+    const remoteIdentity = await fetchRemoteSchoolIdentity();
+    if (remoteIdentity && remoteIdentity.schoolName) {
+      const merged: SchoolIdentity = {
+        ...DEFAULT_SCHOOL_IDENTITY,
+        ...remoteIdentity,
+        theme: {
+          ...DEFAULT_SCHOOL_IDENTITY.theme,
+          ...(remoteIdentity.theme || {})
+        }
+      };
+
+      // Update local cache asynchronously
+      openDB().then((db) => {
+        const tx = db.transaction('settings', 'readwrite');
+        tx.objectStore('settings').put({ id: 'school-identity', data: merged });
+      }).catch(() => {});
+
+      return merged;
+    }
+  } catch (cloudErr) {
+    console.warn('Firebase school identity fetch notice:', cloudErr);
+  }
+
+  // 2. Fallback to local IndexedDB
   try {
     const db = await openDB();
     return new Promise((resolve) => {
@@ -1051,6 +1233,13 @@ export async function saveSchoolIdentity(settings: SchoolIdentity): Promise<void
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
+
+  // Cloud sync to Firebase
+  try {
+    await syncRemoteSchoolIdentity(settings);
+  } catch (cloudErr) {
+    console.warn('Firebase identity sync notice:', cloudErr);
+  }
 }
 
 // ----------------- ADMIN SESSION & CREDENTIALS -----------------
@@ -1378,6 +1567,16 @@ export const DEFAULT_GRADUATION_STUDENTS: GraduationStudent[] = [
 
 export async function getGraduationConfig(): Promise<GraduationConfig> {
   try {
+    const remote = await fetchRemoteGraduation();
+    if (remote?.config) {
+      localStorage.setItem(GRAD_CONFIG_KEY, JSON.stringify(remote.config));
+      return remote.config;
+    }
+  } catch (err) {
+    console.warn('Firebase graduation config fetch notice:', err);
+  }
+
+  try {
     const local = localStorage.getItem(GRAD_CONFIG_KEY);
     if (local) {
       return JSON.parse(local);
@@ -1391,12 +1590,23 @@ export async function getGraduationConfig(): Promise<GraduationConfig> {
 export async function saveGraduationConfig(config: GraduationConfig): Promise<void> {
   try {
     localStorage.setItem(GRAD_CONFIG_KEY, JSON.stringify(config));
+    await syncRemoteGraduation(config);
   } catch (e) {
     console.warn('Failed to save graduation config', e);
   }
 }
 
 export async function getGraduationStudents(): Promise<GraduationStudent[]> {
+  try {
+    const remote = await fetchRemoteGraduation();
+    if (remote?.students && remote.students.length > 0) {
+      localStorage.setItem(GRAD_STUDENTS_KEY, JSON.stringify(remote.students));
+      return remote.students;
+    }
+  } catch (err) {
+    console.warn('Firebase graduation students fetch notice:', err);
+  }
+
   try {
     const local = localStorage.getItem(GRAD_STUDENTS_KEY);
     if (local) {
@@ -1420,6 +1630,8 @@ export async function getGraduationStudents(): Promise<GraduationStudent[]> {
 export async function saveGraduationStudents(students: GraduationStudent[]): Promise<void> {
   try {
     localStorage.setItem(GRAD_STUDENTS_KEY, JSON.stringify(students));
+    const cfg = await getGraduationConfig();
+    await syncRemoteGraduation(cfg, students);
   } catch (e) {
     console.warn('Failed to save graduation students', e);
   }
