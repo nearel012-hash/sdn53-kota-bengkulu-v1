@@ -1,0 +1,8 @@
+{
+  "name": "Remix Portal Publikasi Sekolah Versi 1",
+  "description": "Website publikasi dan portal berita sekolah terpadu dengan Login Admin, Universal Media Library (Gambar, Video, Audio, Dokumen, Arsip), dan kustomisasi identitas serta tema sekolah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
